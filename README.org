@@ -1,31 +1,31 @@
 * Let's install OCaml!
 
-This page has instructions for setting up a modern OCaml development
-environment.
+  This page has instructions for setting up a modern OCaml development
+  environment.
 
 ** Prerequisites
    These instructions have been tested on
-*** macOS 10.13.2
-*** Debian 9.3
-*** Fedora 27
-*** Ubuntu 16.04.3 LTS
+
+   - macOS 10.13.2
+   - Debian 9.3
+   - Fedora 27
+   - Ubuntu 16.04.3 LTS
 
    They *should* work on other versions of macOS and mainstream Linux
    distributions.
 
-   At least on my system, installing =opam= required =sudo= privilege, but
+   At least on my system, installing ~opam~ required ~sudo~ privilege, but
    everything else requires only ordinary user privileges.
 
-   I assume =git= is already installed.
+   I assume ~git~ is already installed.
 
 ** opam
-   The first step is to install =opam=, the OCaml package manager. (We will also
-   need =m4=, a tool used by certain packages to preprocess OCaml code).
+   The first step is to install ~opam~, the OCaml package manager. (We will also
+   need ~m4~, a tool used by certain packages to preprocess OCaml code).
 
-   If you already have =opam= installed, you can skip this step.
+   If you already have ~opam~ installed, you can skip this step.
 
 *** This invocation will vary based on your system.
-
     On Debian and Ubuntu:
 
     #+BEGIN_SRC bash
@@ -39,65 +39,72 @@ environment.
     #+END_SRC
 
     Or, if you prefer not to use Homebrew, you can download a binary directly
-    (just put it somewhere in your PATH with the name =opam=):
+    (just put it somewhere in your PATH with the name ~opam~):
 
     #+BEGIN_SRC bash
     wget https://github.com/ocaml/opam/releases/download/1.2.2/opam-1.2.2-x86_64-Darwin
     #+END_SRC
 
-*** Initialize =opam=
+*** Initialize ~opam~
+    Next we initialize the ~opam~ installation and pull down the latest OCaml
+    compiler. This step will take a little while, because ~opam~ will build the
+    OCaml compiler from source.
 
     #+BEGIN_SRC bash
     opam init -y --compiler=4.06.1
     eval `opam config env`
     #+END_SRC
 
-    If you already have =opam= installed and initialized, do this instead to
-    switch to =4.06.1=:
+    If you already have ~opam~ installed and initialized, do this instead to
+    switch to ~4.06.1~:
 
     #+BEGIN_SRC bash
     opam switch 4.06.1
     eval `opam config env`
     #+END_SRC
 
-    This will take a while, because =opam= will build the OCaml compiler from
-    source.
+    Follow the prompts and put ~eval `opam config env`~ in the appropriate
+    rcfile for your shell (eg ~~/.bashrc~) to set up paths and so forth.
 
-    Put =eval `opam config env`= in the appropriate rcfile for your shell (eg
-    =~/.bashrc=) to set up paths and so forth.
+*** Update and upgrade
+    Update ~opam~'s local cache of available packages and upgrade any packages
+    already installed.
 
-*** Update
     #+BEGIN_SRC bash
     opam update -y && opam upgrade -y
     #+END_SRC
 
-* Install libraries and tools from =opam=
+* Install libraries and tools from ~opam~
+  Next we'll install a set of basic libraries that you'll need for this
+  workshop:
 
-   #+BEGIN_SRC bash
+  #+BEGIN_SRC bash
    opam install -y async core js_of_ocaml js_of_ocaml-ppx merlin utop ocp-indent
-   #+END_SRC
+  #+END_SRC
 
 * Test your installation
 ** Test that you can build basic program
-   Clone this repo and =cd= to the directory with these instructions:
+   Clone this repo and ~cd~ to the directory with these instructions:
+
    #+BEGIN_SRC bash
    git clone https://github.com/janestreet/install-ocaml
    cd install-ocaml/01-hello-world
    #+END_SRC
 
-   Then build and run the =hello_world= program here, like so:
+   Then build and run the ~hello_world~ program here, like so:
 
    #+BEGIN_SRC bash
    jbuilder build hello_world.exe
    jbuilder exec ./hello_world.exe
    #+END_SRC
 
-   This should print =Hello, World=.
-
+   This should print ~Hello, World~.
 ** Test that expect-tests work as intended
-   (See [[https://blog.janestreet.com/testing-with-expectations/]] for an introduction to expect-tests.)
+   One pattern that we'll make a lot of use of at the workshop is expect tests.
+   If you've never heard of expect tests, check out [[https://blog.janestreet.com/testing-with-expectations/][our blog post]] for an
+   overview.
 
-   =cd= to the =02-expect-tests= directory in this repo and run this:
+   ~cd~ to the ~02-expect-tests~ directory in this repo and run this:
 
    #+BEGIN_SRC bash
    jbuilder runtest
@@ -121,7 +128,7 @@ environment.
    #+END_SRC
 
    This indicates a failed test because there is a diff between what we said the
-   program would output (=bar=), and what it actually output (=foo=).
+   program would output (~bar~), and what it actually output (~foo~).
 
    If the test is right and the program wrong, you would fix the program. But if
    it's the test that's wrong, accept the diff like so:
@@ -130,7 +137,7 @@ environment.
    jbuilder promote
    #+END_SRC
 
-   This overwrites =expect_test_example.ml= with a corrected version that
+   This overwrites ~expect_test_example.ml~ with a corrected version that
    expects the output that the program actually produced in the previous run.
    Running the tests again will result in them passing:
 
@@ -138,41 +145,39 @@ environment.
    jbuilder runtest # no output
    git diff # hello_world.ml has been overwritten
    #+END_SRC
-
 * Set up your editor
 ** vim and emacs
-    #+BEGIN_SRC bash
+   #+BEGIN_SRC bash
     opam user-setup install
-    #+END_SRC
+   #+END_SRC
 
-    will set up vim and/or emacs (whichever ones you have installed) with syntax
-    highlighting, indentation, go-to-definition and printing the types of
-    expressions.
+   will set up vim and/or emacs (whichever ones you have installed) with syntax
+   highlighting, indentation, go-to-definition and printing the types of
+   expressions.
 
-    To learn more, visit [[https://github.com/OCamlPro/opam-user-setup]].
-
+   To learn more, visit [[https://github.com/OCamlPro/opam-user-setup]].
 ** Visual Studio Code
-    The recommended plugin is [[https://github.com/reasonml-editor/vscode-reasonml]].
-
+   We recommend the [[https://github.com/reasonml-editor/vscode-reasonml][vscode-reasonml]] plugin.
 * Troubleshooting
 ** Error: field inline_tests needs a value
-   This is probably because you have an older version of =jbuilder= installed. To upgrade:
+   This is probably because you have an older version of ~jbuilder~ installed.
+   To upgrade:
 
-    #+BEGIN_SRC bash
+   #+BEGIN_SRC bash
     opam update -y && opam upgrade -y
-    #+END_SRC
+   #+END_SRC
 
-    Make sure you have version 1.0+beta19 or later:
+   Make sure you have version 1.0+beta19 or later:
 
-    #+BEGIN_SRC bash
+   #+BEGIN_SRC bash
     jbuilder --version
-    #+END_SRC
+   #+END_SRC
 
 ** Error: No inline tests backend found
-   This is probably because you had =core= installed before getting a version of
-   =jbuilder= that supported inline tests. To reinstall:
+   This is probably because you had ~core~ installed before getting a version of
+   ~jbuilder~ that supported inline tests. To reinstall:
 
-    #+BEGIN_SRC bash
-    opam update -y && opame upgrade -y
+   #+BEGIN_SRC bash
+    opam update -y && opam upgrade -y
     opam reinstall -y ppx_inline_test ppx_expect
-    #+END_SRC
+   #+END_SRC
