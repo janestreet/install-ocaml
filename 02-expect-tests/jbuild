@@ -1,0 +1,11 @@
+;; -*- scheme -*-
+
+(jbuild_version 1)
+
+(library (
+  (name expect_test_example)
+  (libraries (core))
+  (inline_tests)
+  (preprocess (pps (ppx_jane)))))
+
+
