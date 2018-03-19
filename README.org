@@ -173,6 +173,6 @@ environment.
    =jbuilder= that supported inline tests. To reinstall:
 
     #+BEGIN_SRC bash
-    opam update -y && opame upgrade -y
+    opam update -y && opam upgrade -y
     opam reinstall -y ppx_inline_test ppx_expect
     #+END_SRC
