@@ -22,6 +22,8 @@ environment.
    The first step is to install =opam=, the OCaml package manager. (We will also
    need =m4=, a tool used by certain packages to preprocess OCaml code).
 
+   If you already have =opam= installed, you can skip this step.
+
 *** This invocation will vary based on your system.
 
     On Debian and Ubuntu:
@@ -47,6 +49,14 @@ environment.
 
     #+BEGIN_SRC bash
     opam init -y --compiler=4.06.1
+    eval `opam config env`
+    #+END_SRC
+
+    If you already have =opam= installed and initialized, do this instead to
+    switch to =4.06.1=:
+
+    #+BEGIN_SRC bash
+    opam switch 4.06.1
     eval `opam config env`
     #+END_SRC
 
