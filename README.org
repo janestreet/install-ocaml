@@ -9,7 +9,7 @@
    - macOS 10.13.2
    - Debian 9.3
    - Fedora 27
-   - Ubuntu 16.04.3 LTS
+   - Ubuntu 16.04.6 LTS
 
    They *should* work on other versions of macOS and mainstream Linux
    distributions.
@@ -26,10 +26,18 @@
    If you already have ~opam~ installed, you can skip this step.
 
 *** This invocation will vary based on your system.
-    On Debian and Ubuntu:
+    On Debian:
 
     #+BEGIN_SRC bash
     apt-get install -y opam m4
+    #+END_SRC
+
+    On Ubuntu:
+
+    #+BEGIN_SRC bash
+    add-apt-repository ppa:avsm/ppa
+    apt update
+    apt install -y opam m4
     #+END_SRC
 
     On macOS (using Homebrew):
@@ -42,7 +50,7 @@
     (just put it somewhere in your PATH with the name ~opam~):
 
     #+BEGIN_SRC bash
-    wget https://github.com/ocaml/opam/releases/download/1.2.2/opam-1.2.2-x86_64-Darwin
+    wget https://github.com/ocaml/opam/releases/download/2.0.3/opam-2.0.3-x86_64-darwin
     #+END_SRC
 
 *** Initialize ~opam~
@@ -51,27 +59,28 @@
     OCaml compiler from source.
 
     #+BEGIN_SRC bash
-    opam init -y --compiler=4.06.1
-    eval `opam config env`
+    opam init -y --compiler=4.07.1
+    eval $(opam env)
     #+END_SRC
 
     If you already have ~opam~ installed and initialized, do this instead to
     switch to ~4.06.1~:
 
     #+BEGIN_SRC bash
-    opam switch 4.06.1
-    eval `opam config env`
+    opam switch create 4.07.1
+    eval $(opam env)
     #+END_SRC
 
-    Follow the prompts and put ~eval `opam config env`~ in the appropriate
-    rcfile for your shell (eg ~~/.bashrc~) to set up paths and so forth.
+    Follow the prompts and put ~eval $(opam env)~ in the appropriate
+    rcfile for your shell (eg ~~/.bashrc~) to set up paths and so forth. Alternatively,
+    you can pass ~-a~ to ~opam init~, and opam will set-up the files for you.
 
 *** Update and upgrade
     Update ~opam~'s local cache of available packages and upgrade any packages
     already installed.
 
     #+BEGIN_SRC bash
-    opam update -y && opam upgrade -y
+    opam update -uy
     #+END_SRC
 
 * Install libraries and tools from ~opam~
