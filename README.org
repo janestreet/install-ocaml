@@ -94,8 +94,8 @@
    Then build and run the ~hello_world~ program here, like so:
 
    #+BEGIN_SRC bash
-   jbuilder build hello_world.exe
-   jbuilder exec ./hello_world.exe
+   dune build hello_world.exe
+   dune exec ./hello_world.exe
    #+END_SRC
 
    This should print ~Hello, World~.
@@ -107,7 +107,7 @@
    ~cd~ to the ~02-expect-tests~ directory in this repo and run this:
 
    #+BEGIN_SRC bash
-   jbuilder runtest
+   dune runtest
    #+END_SRC
 
    If the installation worked successfully, this should produce output that
@@ -134,7 +134,7 @@
    it's the test that's wrong, accept the diff like so:
 
    #+BEGIN_SRC bash
-   jbuilder promote
+   dune promote
    #+END_SRC
 
    This overwrites ~expect_test_example.ml~ with a corrected version that
@@ -142,7 +142,7 @@
    Running the tests again will result in them passing:
 
    #+BEGIN_SRC bash
-   jbuilder runtest # no output
+   dune runtest # no output
    git diff # expect_test_example.ml has been overwritten
    #+END_SRC
 * Set up your editor
@@ -159,25 +159,16 @@
 ** Visual Studio Code
    We recommend the [[https://github.com/reasonml-editor/vscode-reasonml][vscode-reasonml]] plugin.
 * Troubleshooting
-** Error: field inline_tests needs a value
-   This is probably because you have an older version of ~jbuilder~ installed.
-   To upgrade:
-
-   #+BEGIN_SRC bash
-    opam update -y && opam upgrade -y
-   #+END_SRC
-
-   Make sure you have version 1.0+beta19 or later:
-
-   #+BEGIN_SRC bash
-    jbuilder --version
-   #+END_SRC
 
 ** Error: No inline tests backend found
-   This is probably because you had ~core~ installed before getting a version of
-   ~jbuilder~ that supported inline tests. To reinstall:
+   This is probably because you have an older version of  ~core~ installed. To reinstall:
 
    #+BEGIN_SRC bash
-    opam update -y && opam upgrade -y
+    opam update -uy
+   #+END_SRC
+
+   and if the problem persists:
+
+   #+BEGIN_SRC bash
     opam reinstall -y ppx_inline_test ppx_expect
    #+END_SRC
