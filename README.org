@@ -6,9 +6,9 @@
 ** Prerequisites
    These instructions have been tested on
 
-   - macOS 10.13.2
-   - Debian 9.3
-   - Fedora 27
+   - macOS 10.13.6
+   - Debian 9.8
+   - Fedora 29
    - Ubuntu 16.04.6 LTS
 
    They *should* work on other versions of macOS and mainstream Linux
@@ -29,8 +29,16 @@
     On Debian:
 
     #+BEGIN_SRC bash
-    apt-get install -y opam m4
+    apt-get install -y m4
     #+END_SRC
+
+    At present, it is necessary to download the binary directly:
+
+    #+BEGIN_SRC bash
+    wget https://github.com/ocaml/opam/releases/download/2.0.4/opam-2.0.4-x86_64-linux
+    #+END_SRC
+
+    and put it somewhere in your PATH with the name ~opam~.
 
     On Ubuntu:
 
@@ -50,7 +58,7 @@
     (just put it somewhere in your PATH with the name ~opam~):
 
     #+BEGIN_SRC bash
-    wget https://github.com/ocaml/opam/releases/download/2.0.3/opam-2.0.3-x86_64-darwin
+    wget https://github.com/ocaml/opam/releases/download/2.0.4/opam-2.0.4-x86_64-darwin
     #+END_SRC
 
 *** Initialize ~opam~
