@@ -72,7 +72,7 @@
     #+END_SRC
 
     If you already have ~opam~ installed and initialized, do this instead to
-    switch to ~4.06.1~:
+    switch to ~4.07.1~:
 
     #+BEGIN_SRC bash
     opam switch create 4.07.1
