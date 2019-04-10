@@ -10,6 +10,7 @@
    - Debian 9.8
    - Fedora 29
    - Ubuntu 16.04.6 LTS
+   - Windows 10 1810 with Ubuntu 18.04.2 LTS
 
    They *should* work on other versions of macOS and mainstream Linux
    distributions.
@@ -48,6 +49,8 @@
     apt install -y opam m4
     #+END_SRC
 
+    For WSL, you should also ~apt install gcc, binutils-dev, make and pkg-config~
+
     On macOS (using Homebrew):
 
     #+BEGIN_SRC bash
@@ -65,6 +68,8 @@
     Next we initialize the ~opam~ installation and pull down the latest OCaml
     compiler. This step will take a little while, because ~opam~ will build the
     OCaml compiler from source.
+
+    For WSL, you must also include ~--disable-sandboxing~ with ~opam init~
 
     #+BEGIN_SRC bash
     opam init -y --compiler=4.07.1
@@ -175,6 +180,7 @@
    To learn more, visit [[https://github.com/OCamlPro/opam-user-setup]].
 ** Visual Studio Code
    We recommend the [[https://github.com/reasonml-editor/vscode-reasonml][vscode-reasonml]] plugin.
+   Note that on WSL, it's not presently possible to link merlin from WSL with VS Code running natively.
 * Troubleshooting
 
 ** Error: No inline tests backend found
