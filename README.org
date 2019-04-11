@@ -84,6 +84,17 @@
     eval $(opam env)
     #+END_SRC
 
+    If you get an error like this:
+    #+BEGIN_SRC
+    bash[ERROR] Compiler selection '4.07.1' is ambiguous. matching packages: { ocaml-base-compiler.4.07.1, ocaml-system.4.07.1 }
+    #+END_SRC
+    pick the system one:
+
+    #+BEGIN_SRC bash
+    opam switch create ocaml-system.4.07.1
+    eval $(opam env)
+    #+END_SRC
+
     Follow the prompts and put ~eval $(opam env)~ in the appropriate
     rcfile for your shell (eg ~~/.bashrc~) to set up paths and so forth. Alternatively,
     you can pass ~-a~ to ~opam init~, and opam will set-up the files for you.
