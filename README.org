@@ -36,7 +36,7 @@
     At present, it is necessary to download the binary directly:
 
     #+BEGIN_SRC bash
-    wget https://github.com/ocaml/opam/releases/download/2.0.4/opam-2.0.4-x86_64-linux
+    wget https://github.com/ocaml/opam/releases/download/2.0.3/opam-2.0.3-x86_64-linux
     #+END_SRC
 
     and put it somewhere in your PATH with the name ~opam~.
@@ -61,7 +61,7 @@
     (just put it somewhere in your PATH with the name ~opam~):
 
     #+BEGIN_SRC bash
-    wget https://github.com/ocaml/opam/releases/download/2.0.4/opam-2.0.4-x86_64-darwin
+    wget https://github.com/ocaml/opam/releases/download/2.0.3/opam-2.0.3-x86_64-darwin
     #+END_SRC
 
 *** Initialize ~opam~
