@@ -6,10 +6,11 @@
 ** Prerequisites
    These instructions have been tested on
 
-   - macOS 10.13.2
-   - Debian 9.3
-   - Fedora 27
-   - Ubuntu 16.04.3 LTS
+   - macOS 10.13.6
+   - Debian 9.8
+   - Fedora 29
+   - Ubuntu 16.04.6 LTS
+   - Windows 10 1810 with Ubuntu 18.04.2 LTS
 
    They *should* work on other versions of macOS and mainstream Linux
    distributions.
@@ -26,11 +27,29 @@
    If you already have ~opam~ installed, you can skip this step.
 
 *** This invocation will vary based on your system.
-    On Debian and Ubuntu:
+    On Debian:
 
     #+BEGIN_SRC bash
-    apt-get install -y opam m4
+    apt-get install -y m4
     #+END_SRC
+
+    At present, it is necessary to download the binary directly:
+
+    #+BEGIN_SRC bash
+    wget https://github.com/ocaml/opam/releases/download/2.0.3/opam-2.0.3-x86_64-linux
+    #+END_SRC
+
+    and put it somewhere in your PATH with the name ~opam~.
+
+    On Ubuntu:
+
+    #+BEGIN_SRC bash
+    add-apt-repository ppa:avsm/ppa
+    apt update
+    apt install -y opam m4
+    #+END_SRC
+
+    For WSL, you should also ~apt install gcc, binutils-dev, make and pkg-config~
 
     On macOS (using Homebrew):
 
@@ -42,7 +61,7 @@
     (just put it somewhere in your PATH with the name ~opam~):
 
     #+BEGIN_SRC bash
-    wget https://github.com/ocaml/opam/releases/download/1.2.2/opam-1.2.2-x86_64-Darwin
+    wget https://github.com/ocaml/opam/releases/download/2.0.3/opam-2.0.3-x86_64-darwin
     #+END_SRC
 
 *** Initialize ~opam~
@@ -50,28 +69,42 @@
     compiler. This step will take a little while, because ~opam~ will build the
     OCaml compiler from source.
 
+    For WSL, you must also include ~--disable-sandboxing~ with ~opam init~
+
     #+BEGIN_SRC bash
-    opam init -y --compiler=4.06.1
-    eval `opam config env`
+    opam init -y --compiler=4.07.1
+    eval $(opam env)
     #+END_SRC
 
     If you already have ~opam~ installed and initialized, do this instead to
-    switch to ~4.06.1~:
+    switch to ~4.07.1~:
 
     #+BEGIN_SRC bash
-    opam switch 4.06.1
-    eval `opam config env`
+    opam switch create 4.07.1
+    eval $(opam env)
     #+END_SRC
 
-    Follow the prompts and put ~eval `opam config env`~ in the appropriate
-    rcfile for your shell (eg ~~/.bashrc~) to set up paths and so forth.
+    If you get an error like this:
+    #+BEGIN_SRC
+    bash[ERROR] Compiler selection '4.07.1' is ambiguous. matching packages: { ocaml-base-compiler.4.07.1, ocaml-system.4.07.1 }
+    #+END_SRC
+    pick the system one:
+
+    #+BEGIN_SRC bash
+    opam switch create ocaml-system.4.07.1
+    eval $(opam env)
+    #+END_SRC
+
+    Follow the prompts and put ~eval $(opam env)~ in the appropriate
+    rcfile for your shell (eg ~~/.bashrc~) to set up paths and so forth. Alternatively,
+    you can pass ~-a~ to ~opam init~, and opam will set-up the files for you.
 
 *** Update and upgrade
     Update ~opam~'s local cache of available packages and upgrade any packages
     already installed.
 
     #+BEGIN_SRC bash
-    opam update -y && opam upgrade -y
+    opam update -uy
     #+END_SRC
 
 * Install libraries and tools from ~opam~
@@ -94,8 +127,8 @@
    Then build and run the ~hello_world~ program here, like so:
 
    #+BEGIN_SRC bash
-   jbuilder build hello_world.exe
-   jbuilder exec ./hello_world.exe
+   dune build hello_world.exe
+   dune exec ./hello_world.exe
    #+END_SRC
 
    This should print ~Hello, World~.
@@ -107,7 +140,7 @@
    ~cd~ to the ~02-expect-tests~ directory in this repo and run this:
 
    #+BEGIN_SRC bash
-   jbuilder runtest
+   dune runtest
    #+END_SRC
 
    If the installation worked successfully, this should produce output that
@@ -134,7 +167,7 @@
    it's the test that's wrong, accept the diff like so:
 
    #+BEGIN_SRC bash
-   jbuilder promote
+   dune promote
    #+END_SRC
 
    This overwrites ~expect_test_example.ml~ with a corrected version that
@@ -142,8 +175,8 @@
    Running the tests again will result in them passing:
 
    #+BEGIN_SRC bash
-   jbuilder runtest # no output
-   git diff # hello_world.ml has been overwritten
+   dune runtest # no output
+   git diff # expect_test_example.ml has been overwritten
    #+END_SRC
 * Set up your editor
 ** vim and emacs
@@ -158,26 +191,18 @@
    To learn more, visit [[https://github.com/OCamlPro/opam-user-setup]].
 ** Visual Studio Code
    We recommend the [[https://github.com/reasonml-editor/vscode-reasonml][vscode-reasonml]] plugin.
+   Note that on WSL, it's not presently possible to link merlin from WSL with VS Code running natively.
 * Troubleshooting
-** Error: field inline_tests needs a value
-   This is probably because you have an older version of ~jbuilder~ installed.
-   To upgrade:
-
-   #+BEGIN_SRC bash
-    opam update -y && opam upgrade -y
-   #+END_SRC
-
-   Make sure you have version 1.0+beta19 or later:
-
-   #+BEGIN_SRC bash
-    jbuilder --version
-   #+END_SRC
 
 ** Error: No inline tests backend found
-   This is probably because you had ~core~ installed before getting a version of
-   ~jbuilder~ that supported inline tests. To reinstall:
+   This is probably because you have an older version of  ~core~ installed. To reinstall:
 
    #+BEGIN_SRC bash
-    opam update -y && opam upgrade -y
+    opam update -uy
+   #+END_SRC
+
+   and if the problem persists:
+
+   #+BEGIN_SRC bash
     opam reinstall -y ppx_inline_test ppx_expect
    #+END_SRC
